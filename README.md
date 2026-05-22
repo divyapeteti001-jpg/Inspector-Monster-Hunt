@@ -4,9 +4,9 @@
 
 Inspection Detective teaches first-time homebuyers how to think during a home inspection. Many buyers treat inspection as a pass/fail event, but the real skill is knowing which findings change the deal: safety hazards, structural movement, moisture, roof life, plumbing, and expensive near-term repairs. This mini-game turns that stressful walkthrough into a focused detective activity.
 
-The player explores a cutaway house and spends limited inspection tokens on suspicious spots. Each revealed finding includes severity, estimated repair cost, and a short inspector note. After investigating, the player chooses up to three issues to include in a repair-credit or specialist-follow-up request. The mechanic is native to the concept: a real inspection is not about memorizing facts, it is about noticing clues, prioritizing limited attention, and deciding what belongs in negotiation.
+The player explores a cutaway house with a flashlight-style inspection view and spends limited inspection tokens on suspicious spots. Each revealed finding includes severity, estimated repair cost, and a short inspector note. Some findings are serious negotiation items while others are cosmetic red herrings. After investigating, the player chooses up to three issues to include in a repair-credit or specialist-follow-up request. The mechanic is native to the concept: a real inspection is not about memorizing facts, it is about noticing clues, prioritizing limited attention, and deciding what belongs in negotiation.
 
-After completing the round, the player understands that cosmetic issues are different from deal-shaping risks, and that inspection protects the buyer by turning uncertainty into specific next steps. It is fun because it feels like a hidden-object investigation: scan the house, spend tokens carefully, reveal surprises, build a repair request, and earn Nest Coins from the final inspection report.
+After completing the round, the player understands that cosmetic issues are different from deal-shaping risks, and that inspection protects the buyer by turning uncertainty into specific next steps. It is fun because it feels like a hidden-object investigation: sweep the house, spend tokens carefully, reveal surprises, avoid red herrings, build a repair request, and earn Nest Coins from the final inspection report.
 
 The design keeps the lesson tight while still feeling playful, visual, and more active than a quiz.
 
@@ -27,7 +27,7 @@ The UI borrows Nest Navigate's product language: short lessons, readiness progre
 
 ## What I'd Do With More Time
 
-I would add more houses with different risk profiles, richer room art, drag-to-zoom inspection tools, personalized difficulty based on buyer stage, and a small neighborhood map where each house teaches one buyer decision. Phaser could also make the inspection feel more tactile with animated hotspots, flashlight effects, and celebratory coin feedback.
+I would add more houses with different risk profiles, richer room art, drag-to-zoom inspection tools, personalized difficulty based on buyer stage, and a small neighborhood map where each house teaches one buyer decision. Phaser could make the inspection feel even more tactile with animated hotspot discoveries, character movement, and celebratory coin feedback.
 
 ## Known Issues
 

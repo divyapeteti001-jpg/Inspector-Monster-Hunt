@@ -290,6 +290,29 @@ h2 {
   font-size: 1.65rem;
 }
 
+.play-tip {
+  display: grid;
+  gap: 6px;
+  margin: -4px 0 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(20, 33, 61, 0.1);
+  border-radius: 8px;
+  background: #fff8e6;
+}
+
+.play-tip span {
+  color: #8a5a00;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.play-tip p {
+  margin-bottom: 0;
+  color: #42526b;
+  line-height: 1.45;
+}
+
 .inspection-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(340px, 0.8fr);
@@ -310,6 +333,22 @@ h2 {
   overflow: hidden;
   border-radius: 8px;
   background: #dfead2;
+}
+
+.flashlight-beam {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at var(--beam-x, 50%) var(--beam-y, 50%),
+      rgba(255, 248, 230, 0) 0 16%,
+      rgba(20, 33, 61, 0.18) 34%,
+      rgba(20, 33, 61, 0.38) 100%
+    );
+  mix-blend-mode: multiply;
+  transition: background 80ms linear;
 }
 
 .room {
@@ -350,6 +389,7 @@ h2 {
 
 .hotspot {
   position: absolute;
+  z-index: 3;
   display: grid;
   width: 46px;
   aspect-ratio: 1;
@@ -375,6 +415,15 @@ h2 {
 .hotspot.is-found {
   background: #f2b84b;
   color: #14213d;
+}
+
+.hotspot.is-red-herring {
+  background: #42526b;
+}
+
+.hotspot.is-red-herring.is-found {
+  background: #dfe9e3;
+  color: #42526b;
 }
 
 .severity-5.is-found,

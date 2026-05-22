@@ -143,9 +143,28 @@ function StartScreen({ onStart }) {
 }
 
 function HouseBoard({ discovered, onInspect, tokens }) {
+  const [beam, setBeam] = useState({ x: 50, y: 50 })
+
+  function moveBeam(event) {
+    const bounds = event.currentTarget.getBoundingClientRect()
+    const x = ((event.clientX - bounds.left) / bounds.width) * 100
+    const y = ((event.clientY - bounds.top) / bounds.height) * 100
+
+    setBeam({
+      x: Math.min(100, Math.max(0, x)),
+      y: Math.min(100, Math.max(0, y)),
+    })
+  }
+
   return (
     <section className="house-board" aria-label="Inspectable house">
-      <div className="house-map">
+      <div
+        className="house-map"
+        onMouseMove={moveBeam}
+        onPointerMove={moveBeam}
+        style={{ '--beam-x': `${beam.x}%`, '--beam-y': `${beam.y}%` }}
+      >
+        <div className="flashlight-beam" aria-hidden="true"></div>
         <div className="room room-kitchen">Kitchen</div>
         <div className="room room-bedroom">Bedroom</div>
         <div className="room room-bath">Bath</div>
@@ -157,14 +176,16 @@ function HouseBoard({ discovered, onInspect, tokens }) {
 
           return (
             <button
-              className={`hotspot severity-${clue.severity} ${found ? 'is-found' : ''}`}
+              className={`hotspot severity-${clue.severity} ${
+                clue.severity <= 2 ? 'is-red-herring' : ''
+              } ${found ? 'is-found' : ''}`}
               disabled={found || tokens < clue.cost}
               key={clue.id}
               onClick={() => onInspect(clue)}
               style={{ left: `${clue.x}%`, top: `${clue.y}%` }}
               aria-label={`Inspect ${clue.room}`}
             >
-              {found ? '!' : clue.cost}
+              {found ? (clue.severity <= 2 ? 'C' : '!') : clue.cost}
             </button>
           )
         })}
@@ -205,7 +226,7 @@ function DiscoveryLog({ discovered, selected, onToggle }) {
               </div>
               <p>{clue.note}</p>
               <small>
-                Severity {clue.severity}/5 • Est. {formatMoney(clue.repair)}
+                {clue.severity <= 2 ? 'Red herring' : `Severity ${clue.severity}/5`} • Est. {formatMoney(clue.repair)}
               </small>
             </button>
           )
@@ -292,8 +313,8 @@ function GameScreen({ onFinish }) {
           <p className="eyebrow">Personalized neighborhood: Inspection lane</p>
           <h1>Inspect the house</h1>
           <p className="subtitle">
-            Click suspicious spots to reveal findings. Then choose up to three
-            issues that deserve repair credits or specialist follow-up.
+            Sweep the house with your flashlight, spend inspection tokens on
+            suspicious spots, then choose up to three issues for negotiation.
           </p>
         </div>
         <div className="readiness-meter">
@@ -318,6 +339,14 @@ function GameScreen({ onFinish }) {
           <span>Request value</span>
           <strong>{formatMoney(selectedRepairValue)}</strong>
         </div>
+      </section>
+
+      <section className="play-tip" aria-label="How to inspect">
+        <span>Detective tip</span>
+        <p>
+          Numbered spots cost inspection tokens. Exclamation marks are serious
+          findings; C marks cosmetic red herrings that can distract from bigger risks.
+        </p>
       </section>
 
       <div className="inspection-layout">
