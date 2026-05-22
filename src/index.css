@@ -499,39 +499,186 @@ h2 {
 }
 
 .room {
+  position: relative;
   display: grid;
   place-items: center;
+  overflow: hidden;
   border: 2px solid rgba(20, 33, 61, 0.08);
   border-radius: 8px;
   color: rgba(20, 33, 61, 0.74);
   font-weight: 900;
+  isolation: isolate;
+}
+
+.room::before,
+.room::after {
+  position: absolute;
+  z-index: -1;
+  content: "";
+}
+
+.room::before {
+  inset: 0;
+  z-index: 0;
+}
+
+.room::after {
+  z-index: 1;
+  filter: drop-shadow(0 8px 10px rgba(20, 33, 61, 0.12));
+}
+
+.room > span {
+  position: relative;
+  z-index: 2;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .room-kitchen {
   grid-column: 2 / 4;
-  background: #fff5dc;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0 2px, transparent 2px 38px),
+    #fff5dc;
+}
+
+.room-kitchen::before {
+  background:
+    linear-gradient(90deg, #e9eef1 0 18%, transparent 18%),
+    linear-gradient(180deg, transparent 0 58%, #8a5a00 58% 72%, #f7ead4 72% 100%);
+}
+
+.room-kitchen::after {
+  right: 10%;
+  bottom: 18%;
+  width: 48%;
+  height: 34%;
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, #42526b 0 15%, transparent 15% 26%, #42526b 26% 41%, transparent 41% 52%, #42526b 52% 67%, transparent 67%),
+    #f2b84b;
 }
 
 .room-bedroom {
-  background: #e8f2f7;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.28) 0 2px, transparent 2px 34px),
+    #e8f2f7;
+}
+
+.room-bedroom::before {
+  background:
+    radial-gradient(circle at 18% 18%, #fff8e6 0 10%, transparent 11%),
+    linear-gradient(180deg, transparent 0 62%, rgba(20, 33, 61, 0.08) 62% 100%);
+}
+
+.room-bedroom::after {
+  left: 13%;
+  bottom: 16%;
+  width: 62%;
+  height: 36%;
+  border-radius: 12px 12px 8px 8px;
+  background:
+    linear-gradient(90deg, #fff 0 28%, transparent 28%),
+    linear-gradient(180deg, #9ed9d4 0 28%, #fff5dc 28% 100%);
 }
 
 .room-bath {
-  background: #e0f4f0;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.32) 0 2px, transparent 2px 30px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0 2px, transparent 2px 30px),
+    #e0f4f0;
+}
+
+.room-bath::before {
+  background:
+    radial-gradient(circle at 74% 30%, #fff 0 13%, transparent 14%),
+    linear-gradient(180deg, transparent 0 66%, #bde5e1 66% 100%);
+}
+
+.room-bath::after {
+  left: 13%;
+  bottom: 18%;
+  width: 58%;
+  height: 30%;
+  border: 5px solid #fff;
+  border-radius: 999px 999px 10px 10px;
+  background: #9ed9d4;
 }
 
 .room-living {
   grid-column: 1 / 3;
-  background: #f8faf9;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.28) 0 2px, transparent 2px 42px),
+    #f8faf9;
+}
+
+.room-living::before {
+  background:
+    radial-gradient(circle at 82% 22%, #fff8e6 0 12%, transparent 13%),
+    linear-gradient(180deg, transparent 0 64%, rgba(31, 111, 103, 0.12) 64% 100%);
+}
+
+.room-living::after {
+  left: 14%;
+  bottom: 20%;
+  width: 58%;
+  height: 34%;
+  border-radius: 14px 14px 8px 8px;
+  background:
+    linear-gradient(90deg, transparent 0 13%, rgba(20, 33, 61, 0.14) 13% 17%, transparent 17% 48%, rgba(20, 33, 61, 0.14) 48% 52%, transparent 52%),
+    #1f9d7a;
 }
 
 .room-basement {
   grid-column: 1 / 3;
-  background: #e8dfd2;
+  background:
+    linear-gradient(90deg, rgba(20, 33, 61, 0.06) 0 2px, transparent 2px 32px),
+    #e8dfd2;
 }
 
-.room-yard {
-  background: #9bc982;
+.room-basement::before {
+  background:
+    linear-gradient(180deg, rgba(20, 33, 61, 0.1) 0 12%, transparent 12%),
+    radial-gradient(circle at 18% 76%, rgba(66, 82, 107, 0.2) 0 14%, transparent 15%);
+}
+
+.room-basement::after {
+  right: 16%;
+  bottom: 18%;
+  width: 42%;
+  height: 42%;
+  border-radius: 7px;
+  background:
+    repeating-linear-gradient(180deg, #14213d 0 4px, transparent 4px 11px),
+    #e9eef1;
+}
+
+.room-balcony {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.26) 0 2px, transparent 2px 36px),
+    linear-gradient(180deg, #bfe8e2, #9bc982);
+}
+
+.room-balcony::before {
+  background:
+    repeating-linear-gradient(90deg, #fff 0 5px, transparent 5px 22px),
+    linear-gradient(180deg, transparent 0 56%, rgba(20, 33, 61, 0.14) 56% 62%, transparent 62%);
+}
+
+.room-balcony::after {
+  left: 20%;
+  bottom: 18%;
+  width: 48%;
+  height: 36%;
+  border-radius: 999px 999px 10px 10px;
+  background:
+    radial-gradient(circle at 50% 12%, #1f9d7a 0 26%, transparent 27%),
+    linear-gradient(180deg, transparent 0 34%, #8a5a00 34% 100%);
+}
+
+.room span,
+.room {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
 }
 
 .hotspot {

@@ -55,16 +55,16 @@ const clues = [
   },
   {
     id: 'roof',
-    room: 'Exterior',
-    label: 'Curling roof shingles',
+    room: 'Balcony',
+    label: 'Soft balcony decking',
     x: 67,
     y: 16,
     cost: 2,
     severity: 4,
     repair: 5200,
-    type: 'Roof',
+    type: 'Exterior',
     photoType: 'roof',
-    note: 'A tired roof can become a major near-term cost. It belongs in the negotiation conversation.',
+    note: 'Soft decking or worn balcony coverings can hide water damage. It belongs in the negotiation conversation.',
   },
   {
     id: 'window',
@@ -200,12 +200,12 @@ function HouseBoard({ detectivePosition, discovered, onInspect, tokens }) {
         style={{ '--beam-x': `${beam.x}%`, '--beam-y': `${beam.y}%` }}
       >
         <div className="flashlight-beam" aria-hidden="true"></div>
-        <div className="room room-kitchen">Kitchen</div>
-        <div className="room room-bedroom">Bedroom</div>
-        <div className="room room-bath">Bath</div>
-        <div className="room room-living">Living</div>
-        <div className="room room-basement">Basement</div>
-        <div className="room room-yard">Exterior</div>
+        <div className="room room-kitchen"><span>Kitchen</span></div>
+        <div className="room room-bedroom"><span>Bedroom</span></div>
+        <div className="room room-bath"><span>Bath</span></div>
+        <div className="room room-living"><span>Living</span></div>
+        <div className="room room-basement"><span>Basement</span></div>
+        <div className="room room-balcony"><span>Balcony</span></div>
         <div
           className="map-detective"
           aria-hidden="true"
