@@ -681,6 +681,52 @@ h2 {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
 }
 
+.room-kitchen::before,
+.room-living::before,
+.room-bedroom::before,
+.room-bath::before,
+.room-basement::before,
+.room-balcony::before {
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(20, 33, 61, 0.18)),
+    url("/images/inspection-scenes.png");
+  background-size: 300% 200%;
+  background-repeat: no-repeat;
+}
+
+.room-kitchen::before {
+  background-position: 0% 0%;
+}
+
+.room-living::before {
+  background-position: 50% 0%;
+}
+
+.room-bedroom::before {
+  background-position: 100% 0%;
+}
+
+.room-bath::before {
+  background-position: 0% 100%;
+}
+
+.room-basement::before {
+  background-position: 50% 100%;
+}
+
+.room-balcony::before {
+  background-position: 100% 100%;
+}
+
+.room-kitchen::after,
+.room-living::after,
+.room-bedroom::after,
+.room-bath::after,
+.room-basement::after,
+.room-balcony::after {
+  opacity: 0;
+}
+
 .hotspot {
   position: absolute;
   z-index: 3;
@@ -820,7 +866,9 @@ h2 {
   min-height: 118px;
   overflow: hidden;
   border-radius: 8px;
-  background: #d8c7b2;
+  background-image: url("/images/inspection-scenes.png");
+  background-size: 300% 200%;
+  background-repeat: no-repeat;
   box-shadow: inset 0 0 0 1px rgba(20, 33, 61, 0.08);
 }
 
@@ -853,13 +901,38 @@ h2 {
 
 .evidence-wall {
   inset: 0;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.16) 0 2px, transparent 2px 28px),
-    linear-gradient(180deg, #f0dfc9, #cfae8e);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(20, 33, 61, 0.18));
 }
 
 .evidence-detail {
   z-index: 1;
+  opacity: 0;
+}
+
+.evidence-electrical,
+.evidence-foundation {
+  background-position: 50% 100%;
+}
+
+.evidence-water {
+  background-position: 0% 0%;
+}
+
+.evidence-plumbing,
+.evidence-tile {
+  background-position: 0% 100%;
+}
+
+.evidence-roof {
+  background-position: 100% 100%;
+}
+
+.evidence-window {
+  background-position: 100% 0%;
+}
+
+.evidence-paint {
+  background-position: 50% 0%;
 }
 
 .evidence-electrical .detail-one {
