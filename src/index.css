@@ -923,7 +923,8 @@ h2 {
   background-position: 0% 100%;
 }
 
-.evidence-roof {
+.evidence-roof,
+.evidence-balcony {
   background-position: 100% 100%;
 }
 
@@ -1010,31 +1011,6 @@ h2 {
   aspect-ratio: 1;
   border-radius: 50% 50% 50% 8px;
   background: #3b9ed8;
-}
-
-.evidence-roof .evidence-wall {
-  background:
-    repeating-linear-gradient(135deg, #8d3f36 0 14px, #b84a3b 14px 28px);
-}
-
-.evidence-roof .detail-one {
-  left: 34%;
-  top: 24%;
-  width: 52%;
-  height: 28px;
-  transform: rotate(-9deg);
-  border-radius: 8px;
-  background: #f0dfc9;
-}
-
-.evidence-roof .detail-two {
-  left: 18%;
-  top: 56%;
-  width: 30%;
-  height: 22px;
-  transform: rotate(11deg);
-  border-radius: 8px;
-  background: #f0dfc9;
 }
 
 .evidence-window .detail-one {

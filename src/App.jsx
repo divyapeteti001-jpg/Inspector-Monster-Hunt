@@ -63,7 +63,7 @@ const clues = [
     severity: 4,
     repair: 5200,
     type: 'Exterior',
-    photoType: 'roof',
+    photoType: 'balcony',
     note: 'Soft decking or worn balcony coverings can hide water damage. It belongs in the negotiation conversation.',
   },
   {
