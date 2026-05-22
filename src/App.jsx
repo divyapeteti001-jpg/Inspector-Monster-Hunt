@@ -11,6 +11,7 @@ const clues = [
     severity: 5,
     repair: 4200,
     type: 'Safety',
+    photoType: 'electrical',
     note: 'Warm panels can signal overloaded circuits or unsafe wiring. This is worth specialist follow-up.',
   },
   {
@@ -23,6 +24,7 @@ const clues = [
     severity: 5,
     repair: 6800,
     type: 'Structural',
+    photoType: 'foundation',
     note: 'Patterned cracks can point to movement. A buyer should not treat this like cosmetic paint damage.',
   },
   {
@@ -35,6 +37,7 @@ const clues = [
     severity: 4,
     repair: 3100,
     type: 'Moisture',
+    photoType: 'water',
     note: 'Water stains may mean an active roof, plumbing, or ventilation issue. Ask what caused it.',
   },
   {
@@ -47,6 +50,7 @@ const clues = [
     severity: 3,
     repair: 850,
     type: 'Plumbing',
+    photoType: 'plumbing',
     note: 'Small leaks are common, but they can create cabinet damage and mold if ignored.',
   },
   {
@@ -59,6 +63,7 @@ const clues = [
     severity: 4,
     repair: 5200,
     type: 'Roof',
+    photoType: 'roof',
     note: 'A tired roof can become a major near-term cost. It belongs in the negotiation conversation.',
   },
   {
@@ -71,6 +76,7 @@ const clues = [
     severity: 2,
     repair: 450,
     type: 'Usability',
+    photoType: 'window',
     note: 'This matters for safety and ventilation, but it is less urgent than structural or electrical risk.',
   },
   {
@@ -83,6 +89,7 @@ const clues = [
     severity: 2,
     repair: 700,
     type: 'Surface',
+    photoType: 'tile',
     note: 'Loose tile is worth noting, especially near water, but it is usually not the top negotiation item.',
   },
   {
@@ -95,6 +102,7 @@ const clues = [
     severity: 1,
     repair: 180,
     type: 'Cosmetic',
+    photoType: 'paint',
     note: 'Cosmetic wear is normal. Spending negotiation energy here can distract from bigger buyer risks.',
   },
 ]
@@ -135,10 +143,37 @@ function StartScreen({ onStart }) {
             <div>Bath</div>
             <div>Basement</div>
           </div>
-          <div className="magnifier">?</div>
+          <DetectiveMascot />
         </div>
       </section>
     </main>
+  )
+}
+
+function DetectiveMascot() {
+  return (
+    <div className="detective-mascot" aria-hidden="true">
+      <div className="detective-hat"></div>
+      <div className="detective-head">
+        <span></span>
+        <span></span>
+      </div>
+      <div className="detective-coat">
+        <i></i>
+      </div>
+      <div className="detective-glass"></div>
+    </div>
+  )
+}
+
+function EvidenceImage({ clue }) {
+  return (
+    <div className={`evidence-image evidence-${clue.photoType}`} aria-hidden="true">
+      <div className="evidence-wall"></div>
+      <div className="evidence-detail detail-one"></div>
+      <div className="evidence-detail detail-two"></div>
+      <span>{clue.room}</span>
+    </div>
   )
 }
 
@@ -220,6 +255,7 @@ function DiscoveryLog({ discovered, selected, onToggle }) {
               key={clue.id}
               onClick={() => onToggle(clue.id)}
             >
+              <EvidenceImage clue={clue} />
               <div>
                 <span>{clue.type}</span>
                 <strong>{clue.label}</strong>
@@ -316,6 +352,13 @@ function GameScreen({ onFinish }) {
             Sweep the house with your flashlight, spend inspection tokens on
             suspicious spots, then choose up to three issues for negotiation.
           </p>
+        </div>
+        <div className="guide-card">
+          <DetectiveMascot />
+          <div>
+            <span>Agent Nia</span>
+            <p>Find deal-changing risks, then ignore the cosmetic noise.</p>
+          </div>
         </div>
         <div className="readiness-meter">
           <span>Inspection used</span>

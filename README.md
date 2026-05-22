@@ -4,11 +4,11 @@
 
 Inspection Detective teaches first-time homebuyers how to think during a home inspection. Many buyers treat inspection as a pass/fail event, but the real skill is knowing which findings change the deal: safety hazards, structural movement, moisture, roof life, plumbing, and expensive near-term repairs. This mini-game turns that stressful walkthrough into a focused detective activity.
 
-The player explores a cutaway house with a flashlight-style inspection view and spends limited inspection tokens on suspicious spots. Each revealed finding includes severity, estimated repair cost, and a short inspector note. Some findings are serious negotiation items while others are cosmetic red herrings. After investigating, the player chooses up to three issues to include in a repair-credit or specialist-follow-up request. The mechanic is native to the concept: a real inspection is not about memorizing facts, it is about noticing clues, prioritizing limited attention, and deciding what belongs in negotiation.
+The player explores a cutaway house with a flashlight-style inspection view and spends limited inspection tokens on suspicious spots. Each revealed finding includes a visual evidence snapshot, severity, estimated repair cost, and a short inspector note. Some findings are serious negotiation items while others are cosmetic red herrings. After investigating, the player chooses up to three issues to include in a repair-credit or specialist-follow-up request. The mechanic is native to the concept: a real inspection is not about memorizing facts, it is about noticing clues, prioritizing limited attention, and deciding what belongs in negotiation.
 
 After completing the round, the player understands that cosmetic issues are different from deal-shaping risks, and that inspection protects the buyer by turning uncertainty into specific next steps. It is fun because it feels like a hidden-object investigation: sweep the house, spend tokens carefully, reveal surprises, avoid red herrings, build a repair request, and earn Nest Coins from the final inspection report.
 
-The design keeps the lesson tight while still feeling playful, visual, and more active than a quiz.
+The design keeps the lesson tight while still feeling playful, visual, and more active than a quiz. The detective guide and evidence-card treatment are inspired by Nest Navigate's friendly mascot, cutaway home, two-minute lessons, progress tracking, and coins.
 
 ## How to Run Locally
 
