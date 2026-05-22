@@ -177,7 +177,7 @@ function EvidenceImage({ clue }) {
   )
 }
 
-function HouseBoard({ discovered, onInspect, tokens }) {
+function HouseBoard({ detectivePosition, discovered, onInspect, tokens }) {
   const [beam, setBeam] = useState({ x: 50, y: 50 })
 
   function moveBeam(event) {
@@ -206,6 +206,16 @@ function HouseBoard({ discovered, onInspect, tokens }) {
         <div className="room room-living">Living</div>
         <div className="room room-basement">Basement</div>
         <div className="room room-yard">Exterior</div>
+        <div
+          className="map-detective"
+          aria-hidden="true"
+          style={{
+            left: `${detectivePosition.x}%`,
+            top: `${detectivePosition.y}%`,
+          }}
+        >
+          <DetectiveMascot />
+        </div>
         {clues.map((clue) => {
           const found = discovered.includes(clue.id)
 
@@ -276,6 +286,7 @@ function GameScreen({ onFinish }) {
   const [tokens, setTokens] = useState(maxTokens)
   const [discovered, setDiscovered] = useState([])
   const [selected, setSelected] = useState([])
+  const [detectivePosition, setDetectivePosition] = useState({ x: 50, y: 58 })
   const [coach, setCoach] = useState({
     title: 'Start with the suspicious spots',
     text: 'You have limited inspection tokens. Spend more on clues that could hide expensive safety, roof, water, or structural issues.',
@@ -296,6 +307,7 @@ function GameScreen({ onFinish }) {
 
     setTokens((current) => current - clue.cost)
     setDiscovered((current) => [...current, clue.id])
+    setDetectivePosition({ x: clue.x, y: clue.y })
     setCoach({
       title: `${clue.room}: ${clue.label}`,
       text: clue.note,
@@ -393,7 +405,12 @@ function GameScreen({ onFinish }) {
       </section>
 
       <div className="inspection-layout">
-        <HouseBoard discovered={discovered} onInspect={inspect} tokens={tokens} />
+        <HouseBoard
+          detectivePosition={detectivePosition}
+          discovered={discovered}
+          onInspect={inspect}
+          tokens={tokens}
+        />
         <DiscoveryLog
           discovered={discovered}
           selected={selected}
