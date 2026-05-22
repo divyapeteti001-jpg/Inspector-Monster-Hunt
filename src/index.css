@@ -322,7 +322,12 @@ h2 {
   padding: 16px;
   background: #f8faf9;
   color: #14213d;
+  cursor: grab;
   text-align: left;
+}
+
+.fee-card:active {
+  cursor: grabbing;
 }
 
 .fee-card.is-active {
@@ -374,6 +379,7 @@ h2 {
   padding: 20px;
   background: #fff;
   color: #14213d;
+  cursor: copy;
   text-align: left;
 }
 

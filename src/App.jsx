@@ -136,7 +136,7 @@ function StartScreen({ onStart }) {
   )
 }
 
-function CardStack({ placements, activeCard, onSelect }) {
+function CardStack({ placements, activeCard, onSelect, onDragStart }) {
   const remaining = feeCards.filter((card) => !placements[card.id])
 
   return (
@@ -154,7 +154,9 @@ function CardStack({ placements, activeCard, onSelect }) {
         remaining.map((card) => (
           <button
             className={`fee-card ${activeCard === card.id ? 'is-active' : ''}`}
+            draggable
             key={card.id}
+            onDragStart={(event) => onDragStart(event, card.id)}
             onClick={() => onSelect(card.id)}
           >
             <span>{card.label}</span>
@@ -167,7 +169,7 @@ function CardStack({ placements, activeCard, onSelect }) {
   )
 }
 
-function CategoryBoard({ placements, activeCard, onPlace }) {
+function CategoryBoard({ placements, activeCard, onDropCard, onPlace }) {
   return (
     <section className="category-board" aria-label="Sorting categories">
       {categories.map((category) => {
@@ -180,6 +182,8 @@ function CategoryBoard({ placements, activeCard, onPlace }) {
             className="category-bin"
             disabled={!activeCard}
             key={category.id}
+            onDragOver={(event) => event.preventDefault()}
+            onDrop={(event) => onDropCard(event, category.id)}
             onClick={() => onPlace(category.id)}
           >
             <span>{category.title}</span>
@@ -224,8 +228,8 @@ function GameScreen({ onFinish }) {
   const [selectedLoan, setSelectedLoan] = useState('')
   const [feedback, setFeedback] = useState({
     tone: 'neutral',
-    title: 'Pick a fee card',
-    text: 'Then place it into the Loan Estimate bucket where it belongs.',
+    title: 'Drag a fee card',
+    text: 'Drop it into the Loan Estimate bucket where it belongs. You can also click a card, then click a bucket.',
   })
 
   const sortedCount = Object.keys(placements).length
@@ -240,18 +244,21 @@ function GameScreen({ onFinish }) {
   const progress = Math.round((sortedCount / feeCards.length) * 100)
   const canChooseLoan = sortedCount === feeCards.length
 
-  function placeCard(categoryId) {
-    if (!activeCard) return
+  function selectNextCard(currentPlacements) {
+    const remaining = feeCards.filter((card) => !currentPlacements[card.id])
 
-    const card = feeCards.find((feeCard) => feeCard.id === activeCard)
+    setActiveCard(remaining[0]?.id || '')
+  }
+
+  function placeSpecificCard(cardId, categoryId) {
+    const card = feeCards.find((feeCard) => feeCard.id === cardId)
+    if (!card || placements[card.id]) return
+
     const category = categories.find((entry) => entry.id === categoryId)
     const correctCategory = categories.find((entry) => entry.id === card.category)
-    const remaining = feeCards.filter((card) => {
-      if (card.id === activeCard) return false
-      return !placements[card.id]
-    })
+    const nextPlacements = { ...placements, [card.id]: categoryId }
 
-    setPlacements((current) => ({ ...current, [activeCard]: categoryId }))
+    setPlacements(nextPlacements)
     setFeedback(
       categoryId === card.category
         ? {
@@ -265,7 +272,26 @@ function GameScreen({ onFinish }) {
             text: `${card.label} is usually ${correctCategory.title.toLowerCase()}, not ${category.title.toLowerCase()}. ${card.clue}`,
           },
     )
-    setActiveCard(remaining[0]?.id || '')
+    selectNextCard(nextPlacements)
+  }
+
+  function placeCard(categoryId) {
+    if (!activeCard) return
+
+    placeSpecificCard(activeCard, categoryId)
+  }
+
+  function startDrag(event, cardId) {
+    setActiveCard(cardId)
+    event.dataTransfer.effectAllowed = 'move'
+    event.dataTransfer.setData('text/plain', cardId)
+  }
+
+  function dropCard(event, categoryId) {
+    event.preventDefault()
+    const cardId = event.dataTransfer.getData('text/plain')
+
+    placeSpecificCard(cardId, categoryId)
   }
 
   function finishRound() {
@@ -289,8 +315,8 @@ function GameScreen({ onFinish }) {
           <p className="eyebrow">Personalized neighborhood: Closing lane</p>
           <h1>Decode the estimate</h1>
           <p className="subtitle">
-            Click a fee card, place it in the right section, then pick the loan
-            estimate that protects the buyer after closing day.
+            Drag fee cards into the right section, then pick the loan estimate
+            that protects the buyer after closing day.
           </p>
         </div>
         <div className="readiness-meter">
@@ -306,11 +332,13 @@ function GameScreen({ onFinish }) {
         <CardStack
           activeCard={activeCard}
           placements={placements}
+          onDragStart={startDrag}
           onSelect={setActiveCard}
         />
         <CategoryBoard
           activeCard={activeCard}
           placements={placements}
+          onDropCard={dropCard}
           onPlace={placeCard}
         />
       </div>

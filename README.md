@@ -27,8 +27,8 @@ The UI borrows Nest Navigate's product language: short lessons, readiness progre
 
 ## What I'd Do With More Time
 
-I would add drag-and-drop card placement, more Loan Estimate scenarios, personalized difficulty based on buyer stage, and a small neighborhood map where each house teaches one buyer document or decision. Phaser could also make the fee cards feel more tactile with animated sorting trays and coin feedback.
+I would add more Loan Estimate scenarios, personalized difficulty based on buyer stage, and a small neighborhood map where each house teaches one buyer document or decision. Phaser could also make the fee cards feel more tactile with animated sorting trays and coin feedback.
 
 ## Known Issues
 
-The prototype currently uses click-to-select and click-to-place instead of true drag-and-drop. It includes one complete round rather than a library of levels. The loan numbers are simplified for learning clarity and should not be treated as financial advice.
+The prototype includes one complete round rather than a library of levels. The drag-and-drop interaction keeps click-to-place as a fallback for accessibility and trackpad users. The loan numbers are simplified for learning clarity and should not be treated as financial advice.
