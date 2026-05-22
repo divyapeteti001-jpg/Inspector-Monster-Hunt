@@ -1,97 +1,106 @@
 import { useMemo, useState } from 'react'
 
-const feeCards = [
+const clues = [
   {
-    id: 'origination',
-    label: 'Origination fee',
-    amount: '$1,980',
-    clue: 'A lender charge for making the loan. Compare it before you commit.',
-    category: 'lender',
+    id: 'panel',
+    room: 'Basement',
+    label: 'Warm electrical panel',
+    x: 19,
+    y: 72,
+    cost: 2,
+    severity: 5,
+    repair: 4200,
+    type: 'Safety',
+    note: 'Warm panels can signal overloaded circuits or unsafe wiring. This is worth specialist follow-up.',
   },
   {
-    id: 'credit',
-    label: 'Credit report',
-    amount: '$55',
-    clue: 'A small lender-side service charge that usually appears early.',
-    category: 'lender',
+    id: 'crack',
+    room: 'Basement',
+    label: 'Stair-step foundation crack',
+    x: 38,
+    y: 78,
+    cost: 2,
+    severity: 5,
+    repair: 6800,
+    type: 'Structural',
+    note: 'Patterned cracks can point to movement. A buyer should not treat this like cosmetic paint damage.',
   },
   {
-    id: 'title',
-    label: 'Title search',
-    amount: '$725',
-    clue: 'This protects against ownership surprises. Buyers can often shop it.',
-    category: 'shop',
+    id: 'stain',
+    room: 'Kitchen',
+    label: 'Ceiling water stain',
+    x: 52,
+    y: 31,
+    cost: 1,
+    severity: 4,
+    repair: 3100,
+    type: 'Moisture',
+    note: 'Water stains may mean an active roof, plumbing, or ventilation issue. Ask what caused it.',
   },
   {
-    id: 'inspection',
-    label: 'Home inspection',
-    amount: '$525',
-    clue: 'This is your chance to understand the house before closing.',
-    category: 'shop',
+    id: 'sink',
+    room: 'Kitchen',
+    label: 'Slow sink leak',
+    x: 72,
+    y: 52,
+    cost: 1,
+    severity: 3,
+    repair: 850,
+    type: 'Plumbing',
+    note: 'Small leaks are common, but they can create cabinet damage and mold if ignored.',
   },
   {
-    id: 'taxes',
-    label: 'Property tax escrow',
-    amount: '$1,340',
-    clue: 'Money collected now so future tax bills do not hit all at once.',
-    category: 'prepaid',
+    id: 'roof',
+    room: 'Exterior',
+    label: 'Curling roof shingles',
+    x: 67,
+    y: 16,
+    cost: 2,
+    severity: 4,
+    repair: 5200,
+    type: 'Roof',
+    note: 'A tired roof can become a major near-term cost. It belongs in the negotiation conversation.',
   },
   {
-    id: 'insurance',
-    label: 'Homeowners insurance prepaid',
-    amount: '$910',
-    clue: 'Paid up front so coverage is active when the loan closes.',
-    category: 'prepaid',
+    id: 'window',
+    room: 'Bedroom',
+    label: 'Painted-shut window',
+    x: 31,
+    y: 43,
+    cost: 1,
+    severity: 2,
+    repair: 450,
+    type: 'Usability',
+    note: 'This matters for safety and ventilation, but it is less urgent than structural or electrical risk.',
+  },
+  {
+    id: 'tile',
+    room: 'Bathroom',
+    label: 'Loose bathroom tile',
+    x: 82,
+    y: 37,
+    cost: 1,
+    severity: 2,
+    repair: 700,
+    type: 'Surface',
+    note: 'Loose tile is worth noting, especially near water, but it is usually not the top negotiation item.',
+  },
+  {
+    id: 'paint',
+    room: 'Living Room',
+    label: 'Scuffed wall paint',
+    x: 47,
+    y: 60,
+    cost: 1,
+    severity: 1,
+    repair: 180,
+    type: 'Cosmetic',
+    note: 'Cosmetic wear is normal. Spending negotiation energy here can distract from bigger buyer risks.',
   },
 ]
 
-const categories = [
-  {
-    id: 'lender',
-    title: 'Lender charges',
-    detail: 'Fees from the lender or required to process the loan.',
-  },
-  {
-    id: 'shop',
-    title: 'Can shop for',
-    detail: 'Services where comparing providers may save cash.',
-  },
-  {
-    id: 'prepaid',
-    title: 'Prepaids & escrow',
-    detail: 'Upfront money for taxes, insurance, and future bills.',
-  },
-]
-
-const loanChoices = [
-  {
-    id: 'spark',
-    name: 'Spark Bank',
-    rate: '6.72%',
-    monthly: 2475,
-    cashToClose: 18400,
-    note: 'Lowest monthly payment, but the cash due at closing is heavy.',
-    best: false,
-  },
-  {
-    id: 'nest',
-    name: 'Nest Credit Union',
-    rate: '6.88%',
-    monthly: 2515,
-    cashToClose: 15100,
-    note: 'Balanced monthly payment and keeps a healthier emergency cushion.',
-    best: true,
-  },
-  {
-    id: 'rocket',
-    name: 'Rocket Oak Lending',
-    rate: '7.05%',
-    monthly: 2590,
-    cashToClose: 13450,
-    note: 'Cheapest to close, but the monthly payment strains the budget.',
-    best: false,
-  },
-]
+const maxTokens = 8
+const requestLimit = 3
 
 function formatMoney(value) {
   return new Intl.NumberFormat('en-US', {
@@ -107,204 +116,172 @@ function StartScreen({ onStart }) {
       <img src="/images/nest-logo.png" alt="Nest Navigate" className="logo" />
       <section className="hero-panel">
         <div className="hero-copy">
-          <p className="eyebrow">Loan estimate mini-game</p>
-          <h1>Loan Estimate Decoder</h1>
+          <p className="eyebrow">Home inspection mini-game</p>
+          <h1>Inspection Detective</h1>
           <p className="subtitle">
-            Sort real-looking loan fees, spot what can be compared, and choose
-            the offer that keeps both monthly payment and cash-to-close in range.
+            Explore a house, spend limited inspection tokens, uncover hidden
+            repair risks, and choose what belongs in your negotiation request.
           </p>
           <button className="main-button" onClick={onStart}>
-            Decode the Estimate
+            Start Inspection
           </button>
         </div>
 
-        <div className="estimate-visual" aria-hidden="true">
-          <div className="estimate-sheet">
-            <div className="sheet-header">
-              <span>Loan Estimate</span>
-              <strong>Page 2</strong>
-            </div>
-            <div className="fee-line wide"></div>
-            <div className="fee-line"></div>
-            <div className="fee-line short"></div>
-            <div className="stamp">Shop?</div>
+        <div className="house-visual" aria-hidden="true">
+          <div className="roof-shape"></div>
+          <div className="house-cutaway">
+            <div>Kitchen</div>
+            <div>Bedroom</div>
+            <div>Bath</div>
+            <div>Basement</div>
           </div>
-          <div className="coin-burst">+80</div>
+          <div className="magnifier">?</div>
         </div>
       </section>
     </main>
   )
 }
 
-function CardStack({ placements, activeCard, onSelect, onDragStart }) {
-  const remaining = feeCards.filter((card) => !placements[card.id])
+function HouseBoard({ discovered, onInspect, tokens }) {
+  return (
+    <section className="house-board" aria-label="Inspectable house">
+      <div className="house-map">
+        <div className="room room-kitchen">Kitchen</div>
+        <div className="room room-bedroom">Bedroom</div>
+        <div className="room room-bath">Bath</div>
+        <div className="room room-living">Living</div>
+        <div className="room room-basement">Basement</div>
+        <div className="room room-yard">Exterior</div>
+        {clues.map((clue) => {
+          const found = discovered.includes(clue.id)
+
+          return (
+            <button
+              className={`hotspot severity-${clue.severity} ${found ? 'is-found' : ''}`}
+              disabled={found || tokens < clue.cost}
+              key={clue.id}
+              onClick={() => onInspect(clue)}
+              style={{ left: `${clue.x}%`, top: `${clue.y}%` }}
+              aria-label={`Inspect ${clue.room}`}
+            >
+              {found ? '!' : clue.cost}
+            </button>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
+function DiscoveryLog({ discovered, selected, onToggle }) {
+  const foundClues = clues.filter((clue) => discovered.includes(clue.id))
 
   return (
-    <section className="card-stack" aria-label="Fee cards">
+    <section className="discovery-log" aria-label="Inspection discoveries">
       <div className="section-heading">
-        <span>Step 1</span>
-        <h2>Sort each fee</h2>
+        <span>Findings</span>
+        <h2>Build your repair request</h2>
       </div>
-      {remaining.length === 0 ? (
-        <div className="empty-stack">
-          <strong>Estimate decoded</strong>
-          <p>All fee cards are sorted. Now choose the better loan path.</p>
+      {foundClues.length === 0 ? (
+        <div className="empty-log">
+          <strong>No findings yet</strong>
+          <p>Inspect suspicious spots in the house to reveal what matters.</p>
         </div>
       ) : (
-        remaining.map((card) => (
-          <button
-            className={`fee-card ${activeCard === card.id ? 'is-active' : ''}`}
-            draggable
-            key={card.id}
-            onDragStart={(event) => onDragStart(event, card.id)}
-            onClick={() => onSelect(card.id)}
-          >
-            <span>{card.label}</span>
-            <strong>{card.amount}</strong>
-            <small>{card.clue}</small>
-          </button>
-        ))
+        foundClues.map((clue) => {
+          const chosen = selected.includes(clue.id)
+          const disabled = !chosen && selected.length >= requestLimit
+
+          return (
+            <button
+              className={`finding-card ${chosen ? 'is-selected' : ''}`}
+              disabled={disabled}
+              key={clue.id}
+              onClick={() => onToggle(clue.id)}
+            >
+              <div>
+                <span>{clue.type}</span>
+                <strong>{clue.label}</strong>
+              </div>
+              <p>{clue.note}</p>
+              <small>
+                Severity {clue.severity}/5 • Est. {formatMoney(clue.repair)}
+              </small>
+            </button>
+          )
+        })
       )}
     </section>
   )
 }
 
-function CategoryBoard({ placements, activeCard, onDropCard, onPlace }) {
-  return (
-    <section className="category-board" aria-label="Sorting categories">
-      {categories.map((category) => {
-        const sortedCards = feeCards.filter(
-          (card) => placements[card.id] === category.id,
-        )
-
-        return (
-          <button
-            className="category-bin"
-            disabled={!activeCard}
-            key={category.id}
-            onDragOver={(event) => event.preventDefault()}
-            onDrop={(event) => onDropCard(event, category.id)}
-            onClick={() => onPlace(category.id)}
-          >
-            <span>{category.title}</span>
-            <p>{category.detail}</p>
-            <strong>{sortedCards.length}</strong>
-          </button>
-        )
-      })}
-    </section>
-  )
-}
-
-function LoanChoice({ choice, disabled, selectedLoan, onSelect }) {
-  return (
-    <button
-      className={`loan-choice ${selectedLoan === choice.id ? 'is-selected' : ''}`}
-      disabled={disabled}
-      onClick={() => onSelect(choice.id)}
-    >
-      <div>
-        <span>{choice.name}</span>
-        <strong>{choice.rate}</strong>
-      </div>
-      <dl>
-        <div>
-          <dt>Monthly</dt>
-          <dd>{formatMoney(choice.monthly)}</dd>
-        </div>
-        <div>
-          <dt>Cash to close</dt>
-          <dd>{formatMoney(choice.cashToClose)}</dd>
-        </div>
-      </dl>
-      <p>{choice.note}</p>
-    </button>
-  )
-}
-
 function GameScreen({ onFinish }) {
-  const [placements, setPlacements] = useState({})
-  const [activeCard, setActiveCard] = useState(feeCards[0].id)
-  const [selectedLoan, setSelectedLoan] = useState('')
-  const [feedback, setFeedback] = useState({
-    tone: 'neutral',
-    title: 'Drag a fee card',
-    text: 'Drop it into the Loan Estimate bucket where it belongs. You can also click a card, then click a bucket.',
+  const [tokens, setTokens] = useState(maxTokens)
+  const [discovered, setDiscovered] = useState([])
+  const [selected, setSelected] = useState([])
+  const [coach, setCoach] = useState({
+    title: 'Start with the suspicious spots',
+    text: 'You have limited inspection tokens. Spend more on clues that could hide expensive safety, roof, water, or structural issues.',
   })
 
-  const sortedCount = Object.keys(placements).length
-  const sortScore = useMemo(
+  const readiness = Math.round(((maxTokens - tokens) / maxTokens) * 100)
+  const selectedRepairValue = useMemo(
     () =>
-      feeCards.reduce(
-        (score, card) => score + (placements[card.id] === card.category ? 1 : 0),
-        0,
-      ),
-    [placements],
+      selected.reduce((total, clueId) => {
+        const clue = clues.find((entry) => entry.id === clueId)
+        return total + clue.repair
+      }, 0),
+    [selected],
   )
-  const progress = Math.round((sortedCount / feeCards.length) * 100)
-  const canChooseLoan = sortedCount === feeCards.length
 
-  function selectNextCard(currentPlacements) {
-    const remaining = feeCards.filter((card) => !currentPlacements[card.id])
+  function inspect(clue) {
+    if (tokens < clue.cost || discovered.includes(clue.id)) return
 
-    setActiveCard(remaining[0]?.id || '')
+    setTokens((current) => current - clue.cost)
+    setDiscovered((current) => [...current, clue.id])
+    setCoach({
+      title: `${clue.room}: ${clue.label}`,
+      text: clue.note,
+    })
   }
 
-  function placeSpecificCard(cardId, categoryId) {
-    const card = feeCards.find((feeCard) => feeCard.id === cardId)
-    if (!card || placements[card.id]) return
+  function toggleRequest(clueId) {
+    setSelected((current) => {
+      if (current.includes(clueId)) {
+        return current.filter((id) => id !== clueId)
+      }
 
-    const category = categories.find((entry) => entry.id === categoryId)
-    const correctCategory = categories.find((entry) => entry.id === card.category)
-    const nextPlacements = { ...placements, [card.id]: categoryId }
+      if (current.length >= requestLimit) return current
+      return [...current, clueId]
+    })
+  }
 
-    setPlacements(nextPlacements)
-    setFeedback(
-      categoryId === card.category
-        ? {
-            tone: 'correct',
-            title: `Correct: ${card.label}`,
-            text: `${card.label} belongs in ${category.title}. ${card.clue}`,
-          }
-        : {
-            tone: 'miss',
-            title: `Not quite: ${card.label}`,
-            text: `${card.label} is usually ${correctCategory.title.toLowerCase()}, not ${category.title.toLowerCase()}. ${card.clue}`,
-          },
+  function finishInspection() {
+    const selectedClues = selected.map((clueId) =>
+      clues.find((clue) => clue.id === clueId),
     )
-    selectNextCard(nextPlacements)
-  }
-
-  function placeCard(categoryId) {
-    if (!activeCard) return
-
-    placeSpecificCard(activeCard, categoryId)
-  }
-
-  function startDrag(event, cardId) {
-    setActiveCard(cardId)
-    event.dataTransfer.effectAllowed = 'move'
-    event.dataTransfer.setData('text/plain', cardId)
-  }
-
-  function dropCard(event, categoryId) {
-    event.preventDefault()
-    const cardId = event.dataTransfer.getData('text/plain')
-
-    placeSpecificCard(cardId, categoryId)
-  }
-
-  function finishRound() {
-    const chosenLoan = loanChoices.find((choice) => choice.id === selectedLoan)
-    const loanBonus = chosenLoan?.best ? 30 : 10
-    const score = Math.min(100, Math.round((sortScore / feeCards.length) * 70 + loanBonus))
+    const riskScore = selectedClues.reduce(
+      (total, clue) => total + clue.severity * 12,
+      0,
+    )
+    const cosmeticPenalty = selectedClues.some((clue) => clue.severity <= 1)
+      ? 12
+      : 0
+    const missedMajor = clues.filter(
+      (clue) => clue.severity >= 4 && !selected.includes(clue.id),
+    ).length
+    const score = Math.max(
+      0,
+      Math.min(100, riskScore - cosmeticPenalty - missedMajor * 8),
+    )
 
     onFinish({
       score,
-      sortScore,
-      chosenLoan,
-      coins: 40 + score,
-      placements,
+      selectedClues,
+      discoveredCount: discovered.length,
+      selectedRepairValue,
+      followUpCount: missedMajor,
+      coins: 45 + score,
     })
   }
 
@@ -312,122 +289,106 @@ function GameScreen({ onFinish }) {
     <main className="game-screen">
       <header className="game-header">
         <div>
-          <p className="eyebrow">Personalized neighborhood: Closing lane</p>
-          <h1>Decode the estimate</h1>
+          <p className="eyebrow">Personalized neighborhood: Inspection lane</p>
+          <h1>Inspect the house</h1>
           <p className="subtitle">
-            Drag fee cards into the right section, then pick the loan estimate
-            that protects the buyer after closing day.
+            Click suspicious spots to reveal findings. Then choose up to three
+            issues that deserve repair credits or specialist follow-up.
           </p>
         </div>
         <div className="readiness-meter">
-          <span>Readiness</span>
-          <strong>{progress}%</strong>
+          <span>Inspection used</span>
+          <strong>{readiness}%</strong>
           <div>
-            <i style={{ width: `${progress}%` }}></i>
+            <i style={{ width: `${readiness}%` }}></i>
           </div>
         </div>
       </header>
 
-      <div className="decoder-layout">
-        <CardStack
-          activeCard={activeCard}
-          placements={placements}
-          onDragStart={startDrag}
-          onSelect={setActiveCard}
-        />
-        <CategoryBoard
-          activeCard={activeCard}
-          placements={placements}
-          onDropCard={dropCard}
-          onPlace={placeCard}
+      <section className="inspection-hud">
+        <div>
+          <span>Tokens left</span>
+          <strong>{tokens}</strong>
+        </div>
+        <div>
+          <span>Findings</span>
+          <strong>{discovered.length}</strong>
+        </div>
+        <div>
+          <span>Request value</span>
+          <strong>{formatMoney(selectedRepairValue)}</strong>
+        </div>
+      </section>
+
+      <div className="inspection-layout">
+        <HouseBoard discovered={discovered} onInspect={inspect} tokens={tokens} />
+        <DiscoveryLog
+          discovered={discovered}
+          selected={selected}
+          onToggle={toggleRequest}
         />
       </div>
 
-      <section className={`feedback-panel ${feedback.tone}`} aria-live="polite">
-        <span>Coach note</span>
-        <strong>{feedback.title}</strong>
-        <p>{feedback.text}</p>
+      <section className="feedback-panel correct" aria-live="polite">
+        <span>Inspector note</span>
+        <strong>{coach.title}</strong>
+        <p>{coach.text}</p>
       </section>
 
-      <section className={`loan-panel ${canChooseLoan ? '' : 'is-muted'}`}>
-        <div className="section-heading">
-          <span>Step 2</span>
-          <h2>Choose the healthier loan</h2>
-        </div>
-        <div className="loan-grid">
-          {loanChoices.map((choice) => (
-            <LoanChoice
-              choice={choice}
-              disabled={!canChooseLoan}
-              key={choice.id}
-              selectedLoan={selectedLoan}
-              onSelect={setSelectedLoan}
-            />
-          ))}
-        </div>
-        <button
-          className="main-button finish-button"
-          disabled={!canChooseLoan || !selectedLoan}
-          onClick={finishRound}
-        >
-          Reveal My Readiness
-        </button>
-      </section>
+      <button
+        className="main-button finish-button"
+        disabled={selected.length === 0}
+        onClick={finishInspection}
+      >
+        Submit Repair Request
+      </button>
     </main>
   )
 }
 
 function ResultScreen({ result, onReplay }) {
-  const won = result.score >= 75
-  const lowestMonthly = loanChoices.reduce((best, choice) =>
-    choice.monthly < best.monthly ? choice : best,
-  )
-  const lowestCash = loanChoices.reduce((best, choice) =>
-    choice.cashToClose < best.cashToClose ? choice : best,
-  )
-  const healthiest = loanChoices.find((choice) => choice.best)
-  const lesson =
-    'Cash to close is more than the down payment. A smart buyer checks lender charges, shop-able services, prepaids, monthly payment, and emergency cushion together.'
+  const won = result.score >= 72
+  const topFindings = result.selectedClues
+    .map((clue) => `${clue.label} (${formatMoney(clue.repair)})`)
+    .join(', ')
 
   return (
     <main className="result-screen">
       <img src="/images/nest-logo.png" alt="Nest Navigate" className="logo" />
       <section className="result-card">
-        <p className="eyebrow">Decoded report</p>
-        <h1>{won ? 'Buyer-ready instincts' : 'Keep decoding'}</h1>
+        <p className="eyebrow">Inspection report</p>
+        <h1>{won ? 'Sharp buyer instincts' : 'Needs a second look'}</h1>
         <div className="score-orbit">
           <span>{result.score}%</span>
           <small>{result.coins} Nest Coins</small>
         </div>
         <p className="subtitle">
-          You sorted {result.sortScore} of {feeCards.length} fee cards correctly
-          and chose {result.chosenLoan.name}. {result.chosenLoan.best
-            ? 'That was the healthiest overall estimate.'
-            : 'The better pick was Nest Credit Union because it balanced monthly payment with cash left after closing.'}
+          You found {result.discoveredCount} issues and built a repair request
+          worth {formatMoney(result.selectedRepairValue)}.
         </p>
         <div className="lesson-recap">
-          <strong>What this teaches</strong>
-          <p>{lesson}</p>
+          <strong>Your request</strong>
+          <p>{topFindings || 'No issues selected.'}</p>
         </div>
-        <div className="comparison-grid" aria-label="Loan comparison summary">
+        <div className="comparison-grid" aria-label="Inspection learning summary">
           <div>
-            <span>Lowest monthly</span>
-            <strong>{lowestMonthly.name}</strong>
-            <p>{formatMoney(lowestMonthly.monthly)} per month</p>
+            <span>Best buyer move</span>
+            <strong>Prioritize risk</strong>
+            <p>Safety, structure, roof, and moisture usually matter more than cosmetics.</p>
           </div>
           <div>
-            <span>Lowest cash to close</span>
-            <strong>{lowestCash.name}</strong>
-            <p>{formatMoney(lowestCash.cashToClose)} due at closing</p>
+            <span>Still needs follow-up</span>
+            <strong>{result.followUpCount}</strong>
+            <p>Some major findings may need a specialist even if they are not in the top request.</p>
           </div>
           <div className="best-choice">
-            <span>Healthiest overall</span>
-            <strong>{healthiest.name}</strong>
-            <p>Balances payment pressure with post-closing cushion.</p>
+            <span>What this teaches</span>
+            <strong>Negotiate wisely</strong>
+            <p>Inspection is not about finding everything. It is about knowing what changes the deal.</p>
           </div>
         </div>
         <button className="main-button" onClick={onReplay}>
-          Play Again
+          Inspect Again
         </button>
       </section>
     </main>
