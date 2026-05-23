@@ -1,35 +1,63 @@
 # Inspection Monster Hunt
 
-## The Concept
+Inspection Monster Hunt is my React mini game for the Nest Navigate Full Stack Engineering Assignment. The game teaches first-time homebuyers how to read a home inspection report with more confidence and decide which issues are worth bringing into a seller negotiation.
 
-Inspection Monster Hunt teaches first-time homebuyers how to understand and prioritize home inspection findings before negotiating with a seller. After an offer is accepted, many buyers receive an inspection report filled with repairs, warnings, notes, and cosmetic observations. For someone buying a home for the first time, that report can feel overwhelming because every issue may look equally scary.
+## Game Concept
 
-This game focuses on one practical lesson: not every inspection finding deserves the same level of attention. A loose tile, a scuffed wall, a slow drain, a roof leak, and an unsafe electrical panel should not all carry the same negotiation weight. The game turns inspection findings into "repair monsters" inside a house. Bigger monsters represent issues that can affect safety, budget, habitability, or the overall deal. Smaller monsters represent lower-priority or cosmetic problems.
+Buying a first home can be stressful because the inspection report often lists a lot of problems at once. Some findings are serious, like unsafe wiring, roof leaks, moisture damage, foundation cracks, or missing permits. Others are normal wear and tear, like scuffed paint or a loose tile. My game focuses on that decision-making moment.
 
-The goal is to help the player think like a prepared buyer. Instead of reacting emotionally to a long list of problems, the player learns to ask: Which issue could become expensive? Which issue could create safety risk? Which issue needs more evidence? Which issue is annoying but not worth risking the deal over?
+In Inspection Monster Hunt, inspection problems appear as repair monsters inside different homes. The player chooses a house, inspects visible issues, reveals hidden risks, manages limited inspection tokens, and watches the deal health change based on what is still unresolved. Each monster has a severity level, repair cost, inspection note, and negotiation value. The player cannot clear everything, so they have to decide what matters most.
 
-## The Mechanic
+After the inspection round, the player builds a repair request with up to three findings and chooses a negotiation strategy: repairs, closing credit, or price reduction. The result screen shows how strong the request was, how the seller responded, what value the buyer may recover, and which major issues still need follow-up.
 
-The player begins by choosing a house level. Each house has a different listing price, difficulty level, number of inspection tokens, visible repair monsters, and hidden problems. Once the level starts, the player sees a house scene with clickable monster hotspots. Each monster represents a specific inspection finding, such as a ceiling water stain, soft balcony decking, a warm electrical panel, missing permits, or cosmetic paint damage.
+The main learning goal is that a strong inspection response is focused and evidence-based. A buyer should not treat every defect the same. Safety, moisture, structure, roof, electrical, and documentation issues usually matter more than cosmetic problems.
 
-The player has a limited number of inspection tokens. Clearing a serious monster costs more than clearing a minor one, so the player cannot simply click everything without thinking. While monsters remain active, they drain three deal-health meters: buyer confidence, budget safety, and deal health. This creates pressure to prioritize the most important issues first.
+## How to Run Locally
 
-The player can also use inspection tools. A flashlight sweep reveals a hidden issue before it surprises the buyer. A contractor estimate strengthens one discovered issue and makes the final negotiation more credible. An agent call highlights the strongest active target and helps stabilize the deal. These tools have cooldowns, so the player has to decide when they are most useful.
+1. Install dependencies:
 
-After clearing monsters, the player builds a seller repair request by choosing up to three findings. This is the key decision point. Selecting only cosmetic problems usually leads to a weaker outcome, while selecting major issues with good evidence creates a stronger negotiation position. The player then chooses a negotiation strategy: ask for repairs, ask for a closing credit, or ask for a price cut. The game calculates the seller response based on issue severity, estimated repair value, supporting evidence, ask size, house difficulty, and remaining deal health.
+```bash
+npm install
+```
 
-## The Learning Outcome
+2. Start the development server:
 
-After completing the game, the player should understand that a home inspection is not about finding every flaw and asking the seller to fix all of it. The stronger skill is knowing how to separate deal-shaping risks from normal wear and tear. A first-time buyer should come away understanding that safety, moisture, structural, electrical, roof, and documentation issues usually matter more than cosmetic imperfections.
+```bash
+npm run dev
+```
 
-The game also teaches that negotiation is about focus. A short, evidence-backed request can be more persuasive than a long list of complaints. For example, asking for help with a water stain, hidden mold risk, and soft balcony decking is stronger than asking for scuffed paint and a loose tile. The player sees this lesson through the scoring system, seller response, expected credit value, and final inspection report.
+3. Open the local URL shown in the terminal.
 
-The end result explains how well the player protected the buyer. It shows the seller response, remaining deal health, request value, missed major issues, and a title such as Smart Negotiator, Budget Protector, Risk Hunter, or Cosmetic Chaser. That feedback helps the player understand not just whether they won, but why their decisions worked or failed.
+4. Build the production version:
 
-## Why It's Fun
+```bash
+npm run build
+```
 
-The game is designed to feel like a light strategy and hidden-object game rather than a quiz or flashcard exercise. The player is not just reading educational content; they are exploring a house, hunting monsters, spending limited resources, revealing hidden risks, and watching the deal-health meters react to their choices.
+5. Run the lint check:
 
-It is fun because the player has to make tradeoffs. Clearing every visible issue may feel satisfying, but it can waste tokens on low-impact problems. Waiting too long to address serious monsters can hurt buyer confidence and budget safety. Using a tool at the right moment can reveal a hidden problem or make the final negotiation stronger. These choices make the homebuying lesson feel active instead of passive.
+```bash
+npm run lint
+```
 
-The monster theme also makes a stressful real-world process more approachable. Inspection reports can be intimidating, especially for first-time buyers. Turning repair risks into monsters gives the player a clear visual language: some problems are dangerous, some are sneaky, and some are just distractions. The final negotiation phase adds a satisfying finish because the player sees how their inspection choices affect the seller's response and the buyer's outcome.
+## Tech Choices
+
+I used React with Vite because it is fast to set up and works well for a small interactive prototype. The game state lives in React state, which keeps the project simple and matches the assignment requirement that no backend is needed.
+
+The game uses plain CSS for styling and responsive layout. I chose this so the visual design, animations, house board, meters, cards, and mobile adjustments could stay in one place without adding another styling library. The app is fully self-contained and does not call any external APIs.
+
+Most of the game data is stored as structured JavaScript objects in `src/App.jsx`. That made it easier to build multiple houses, different inspection findings, hidden issues, tool cooldowns, scoring rules, and negotiation outcomes without needing a database.
+
+## What I Would Do With More Time
+
+With more time, I would add more house types and a clearer tutorial round for players who are completely new to inspection reports. I would also add sound effects, stronger animations, and a small glossary for terms like closing credit, repair request, and specialist follow-up.
+
+I would also separate the larger game data and scoring logic into smaller files. For this prototype, I kept the project compact so the full game loop was easier to review, but splitting the data and helper functions would make the app easier to extend.
+
+## Known Issues
+
+The prototype is designed for laptop and standard browser sizes first. It is responsive and usable on smaller screens, but the house hotspots are easiest to play on a larger screen.
+
+The inspection findings and repair values are simplified for gameplay. They are meant to teach prioritization, not replace advice from a real inspector, contractor, or real estate professional.
+
+The app does not save progress after a browser refresh. All progress is kept in the current browser session, which matches the no-backend scope of the assignment.
