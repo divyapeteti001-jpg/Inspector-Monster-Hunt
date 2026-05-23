@@ -34,7 +34,3 @@ Repair estimates are simplified for educational gameplay and are not financial, 
 ## Deployment
 
 The assignment asks for a public deployed URL. This project is ready for Vercel, Netlify, Railway, or GitHub Pages, but the deployment URL should be added here after publishing.
-
-## Interview Guide
-
-See `INTERVIEW_GUIDE.md` for the product rationale, workflow, game rules, code walkthrough, and talking points for the follow-up conversation.
