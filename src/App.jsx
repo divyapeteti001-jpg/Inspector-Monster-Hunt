@@ -601,7 +601,7 @@ function StartScreen({ onStart }) {
       <img src="/images/nest-logo.png" alt="Nest Navigate" className="logo" />
       <section className="hero-panel">
         <div className="hero-copy">
-          <p className="eyebrow">Advanced home inspection game</p>
+          <p className="eyebrow">First-time buyer mini game</p>
           <h1>Inspection Monster Hunt</h1>
           <p className="subtitle">
             Defeat priority repair monsters, manage buyer confidence, use tools,
@@ -1077,10 +1077,11 @@ function GameScreen({ house, onFinish }) {
       <ToolPanel cooldowns={cooldowns} onUseTool={useTool} />
 
       <section className="play-tip">
-        <span>Agent tip</span>
+        <span>Buyer lesson</span>
         <p>
           Critical and High monsters are the best repair-request targets. Hidden
           monsters can appear after related problems or from the flashlight tool.
+          Cosmetic issues are usually weaker negotiation anchors.
         </p>
       </section>
 
@@ -1148,7 +1149,7 @@ function NegotiationScreen({ report, onFinish }) {
         <h1>Seller Negotiation</h1>
         <p className="subtitle">
           Pick the tone of your repair request. The seller response depends on
-          priority, estimates, ask size, and remaining deal health.
+          issue priority, supporting estimates, ask size, and remaining deal health.
         </p>
 
         <div className="lesson-recap">
