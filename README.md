@@ -2,6 +2,8 @@
 
 Inspection Monster Hunt is my React mini game for the Nest Navigate Full Stack Engineering Assignment. The game teaches first-time homebuyers how to read a home inspection report with more confidence and decide which issues are worth bringing into a seller negotiation.
 
+Live app: https://inspector-monster-hunt.vercel.app/
+
 ## Game Concept
 
 Buying a first home can be stressful because the inspection report often lists a lot of problems at once. Some findings are serious, like unsafe wiring, roof leaks, moisture damage, foundation cracks, or missing permits. Others are normal wear and tear, like scuffed paint or a loose tile. My game focuses on that decision-making moment.
