@@ -1,14 +1,12 @@
-# Inspection Detective
+# Inspection Monster Hunt
 
 ## Game Concept
 
-Inspection Detective teaches first-time homebuyers how to think during a home inspection. Many buyers treat inspection as a pass/fail event, but the real skill is knowing which findings change the deal: safety hazards, structural movement, moisture, roof life, plumbing, and expensive near-term repairs. This mini-game turns that stressful walkthrough into a focused detective activity.
+Inspection Monster Hunt teaches first-time homebuyers how to prioritize home inspection findings before negotiation. Many buyers see inspection as a list of scary problems, but the real skill is deciding which issues affect safety, budget, and the deal. In this game, repair risks appear as priority monsters inside an illustrated home. The player spends limited inspection tokens, uses tools like a flashlight sweep, contractor estimate, and agent call, and clears monsters in the order that best protects the buyer.
 
-The player explores a cutaway house with a flashlight-style inspection view and spends limited inspection tokens on suspicious spots. A detective character moves through the house to investigate each selected clue. Each revealed finding includes a visual evidence snapshot, severity, estimated repair cost, and a short inspector note. Some findings are serious negotiation items while others are cosmetic red herrings. After investigating, the player chooses up to three issues to include in a repair-credit or specialist-follow-up request. The mechanic is native to the concept: a real inspection is not about memorizing facts, it is about noticing clues, prioritizing limited attention, and deciding what belongs in negotiation.
+The core mechanic is built around inspection tradeoffs: every active monster attacks buyer confidence, budget safety, and deal health until it is cleared. Some issues are obvious, some are hidden behind related clues, and some are cosmetic distractions. After the hunt, the player chooses up to three findings for a seller negotiation and selects a strategy: repair request, closing credit, or price cut.
 
-After completing the round, the player understands that cosmetic issues are different from deal-shaping risks, and that inspection protects the buyer by turning uncertainty into specific next steps. It is fun because it feels like a hidden-object investigation: sweep the house, spend tokens carefully, reveal surprises, avoid red herrings, build a repair request, and earn Nest Coins from the final inspection report.
-
-The design keeps the lesson tight while still feeling playful, visual, and more active than a quiz. The detective guide and evidence-card treatment are inspired by Nest Navigate's friendly mascot, cutaway home, two-minute lessons, progress tracking, and coins.
+The learning outcome is that inspection is not about finding everything or asking for every small flaw. It is about separating cosmetic noise from deal-shaping risk, building evidence, and making a focused repair request. It is fun because it feels like a light strategy/hidden-object game with urgency, tools, visual feedback, and a seller response at the end.
 
 ## How to Run Locally
 
@@ -21,14 +19,22 @@ Open the local URL Vite prints in the terminal, usually `http://localhost:5173`.
 
 ## Tech Choices
 
-This prototype uses React with Vite and plain CSS. React state is enough for the game loop: start screen, house inspection, finding selection, scoring, and result screen. I kept it self-contained with no backend, no API calls, and no extra state library so the code stays easy to review.
+This prototype uses React, Vite, and plain CSS. All state lives in React: screen flow, selected house, cleared monsters, hidden reveals, tool cooldowns, deal-health meters, negotiation strategy, and final scoring. There is no backend, database, auth, or external API.
 
-The UI borrows Nest Navigate's product language: short lessons, readiness progress, Nest Coins, and friendly coaching rather than dense financial instruction.
+I skipped Phaser for this version because the core assignment prioritizes a tight, working React prototype. The game still uses visual game elements through CSS animation, an illustrated house map, clickable monsters, and result feedback.
 
 ## What I'd Do With More Time
 
-I would add more houses with different risk profiles, richer room art, drag-to-zoom inspection tools, personalized difficulty based on buyer stage, and a small neighborhood map where each house teaches one buyer decision. Phaser could make the inspection feel even more tactile with animated hotspot discoveries, character movement, and celebratory coin feedback.
+I would add custom monster art for each issue type, a stronger animated battle sequence, sound effects, keyboard accessibility polish, and a simple shareable result screen. Phaser would be a good next step for sprite movement and particle effects once the core learning loop is locked.
 
 ## Known Issues
 
-The prototype includes one complete round rather than a library of levels. The inspection findings and repair estimates are simplified for learning clarity and should not be treated as financial advice or a substitute for a licensed inspector.
+Repair estimates are simplified for educational gameplay and are not financial, legal, or inspection advice. The prototype is responsive for laptop and basic mobile layouts, but the best experience is on a laptop browser.
+
+## Deployment
+
+The assignment asks for a public deployed URL. This project is ready for Vercel, Netlify, Railway, or GitHub Pages, but the deployment URL should be added here after publishing.
+
+## Interview Guide
+
+See `INTERVIEW_GUIDE.md` for the product rationale, workflow, game rules, code walkthrough, and talking points for the follow-up conversation.
