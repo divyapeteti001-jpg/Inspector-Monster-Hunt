@@ -73,22 +73,6 @@ button {
   text-transform: uppercase;
 }
 
-.backend-pill {
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  z-index: 20;
-  padding: 9px 12px;
-  border: 1px solid rgba(31, 111, 103, 0.24);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.92);
-  color: #1f6f67;
-  font-size: 0.78rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  box-shadow: 0 12px 28px rgba(23, 32, 51, 0.12);
-}
-
 .eyebrow {
   margin: 0 0 10px;
   color: #1f6f67;

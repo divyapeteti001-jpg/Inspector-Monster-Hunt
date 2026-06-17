@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 const requestLimit = 3
 
@@ -1307,29 +1307,7 @@ function App() {
   const [report, setReport] = useState(null)
   const [result, setResult] = useState(null)
   const [completed, setCompleted] = useState({})
-  const [backendStatus, setBackendStatus] = useState('')
   const house = houses[houseIndex]
-
-  useEffect(() => {
-    let active = true
-
-    fetch('/api/health')
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data) => {
-        if (active && data?.status) {
-          setBackendStatus(data.status)
-        }
-      })
-      .catch(() => {
-        if (active) {
-          setBackendStatus('')
-        }
-      })
-
-    return () => {
-      active = false
-    }
-  }, [])
 
   function chooseHouse(index) {
     setHouseIndex(index)
@@ -1383,11 +1361,6 @@ function App() {
           onNextHouse={nextHouse}
           onReplay={replay}
         />
-      )}
-      {backendStatus && (
-        <div className="backend-pill" aria-live="polite">
-          Backend {backendStatus}
-        </div>
       )}
     </div>
   )
