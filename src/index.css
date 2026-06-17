@@ -46,10 +46,47 @@ button {
   margin: 0 auto;
 }
 
-.logo {
-  display: block;
-  width: min(220px, 58vw);
+.brand-mark {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  align-items: center;
+  gap: 12px;
   margin: 0 auto 22px;
+  color: #14213d;
+  font-weight: 900;
+}
+
+.brand-mark span {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 8px;
+  background: #1f6f67;
+  color: #fff;
+  box-shadow: 0 14px 24px rgba(31, 111, 103, 0.2);
+}
+
+.brand-mark strong {
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.backend-pill {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 20;
+  padding: 9px 12px;
+  border: 1px solid rgba(31, 111, 103, 0.24);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #1f6f67;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  box-shadow: 0 12px 28px rgba(23, 32, 51, 0.12);
 }
 
 .eyebrow {

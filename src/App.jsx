@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 const requestLimit = 3
 
@@ -584,6 +584,37 @@ function calculateNegotiation(report, strategy) {
   }
 }
 
+async function submitAttempt(result) {
+  const payload = {
+    houseId: result.house.id,
+    houseName: result.house.name,
+    score: result.score,
+    points: result.coins,
+    grade: result.grade.title,
+    sellerResponse: result.negotiation.response,
+    strategy: result.negotiation.strategy.name,
+    selectedFindings: result.selectedClues.map((clue) => ({
+      id: clue.id,
+      label: clue.label,
+      severity: clue.severity,
+      repair: clue.repair,
+      type: clue.type,
+    })),
+    missedMajor: result.missedMajor,
+    healthAverage: result.healthAverage,
+  }
+
+  try {
+    await fetch('/api/attempts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+  } catch {
+    // The game still works locally even when the serverless API is unavailable.
+  }
+}
+
 function DetectiveMascot() {
   return (
     <img
@@ -595,10 +626,19 @@ function DetectiveMascot() {
   )
 }
 
+function BrandMark() {
+  return (
+    <div className="brand-mark" aria-label="Inspection Monster Hunt">
+      <span>IMH</span>
+      <strong>Inspection Monster Hunt</strong>
+    </div>
+  )
+}
+
 function StartScreen({ onStart }) {
   return (
     <main className="start-screen">
-      <img src="/images/nest-logo.png" alt="Nest Navigate" className="logo" />
+      <BrandMark />
       <section className="hero-panel">
         <div className="hero-copy">
           <p className="eyebrow">First-time buyer mini game</p>
@@ -628,7 +668,7 @@ function StartScreen({ onStart }) {
 function LevelSelect({ completed, onSelect }) {
   return (
     <main className="level-select-screen">
-      <img src="/images/nest-logo.png" alt="Nest Navigate" className="logo" />
+      <BrandMark />
       <section className="route-header">
         <p className="eyebrow">Inspection lanes</p>
         <h1>Choose a House</h1>
@@ -1205,7 +1245,7 @@ function ResultScreen({ result, onNextHouse, onReplay, hasNextHouse }) {
 
   return (
     <main className="result-screen">
-      <img src="/images/nest-logo.png" alt="Nest Navigate" className="logo" />
+      <BrandMark />
 
       <section className="result-card">
         <p className="eyebrow">Inspection report</p>
@@ -1213,7 +1253,7 @@ function ResultScreen({ result, onNextHouse, onReplay, hasNextHouse }) {
 
         <div className="score-orbit">
           <span>{result.score}%</span>
-          <small>{result.coins} Nest Coins</small>
+          <small>{result.coins} Buyer Points</small>
         </div>
 
         <p className="subtitle">{result.grade.text}</p>
@@ -1267,7 +1307,29 @@ function App() {
   const [report, setReport] = useState(null)
   const [result, setResult] = useState(null)
   const [completed, setCompleted] = useState({})
+  const [backendStatus, setBackendStatus] = useState('')
   const house = houses[houseIndex]
+
+  useEffect(() => {
+    let active = true
+
+    fetch('/api/health')
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (active && data?.status) {
+          setBackendStatus(data.status)
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setBackendStatus('')
+        }
+      })
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   function chooseHouse(index) {
     setHouseIndex(index)
@@ -1285,6 +1347,7 @@ function App() {
 
   function finishGame(nextResult) {
     setResult(nextResult)
+    void submitAttempt(nextResult)
     setCompleted((current) => ({
       ...current,
       [nextResult.house.id]: nextResult,
@@ -1320,6 +1383,11 @@ function App() {
           onNextHouse={nextHouse}
           onReplay={replay}
         />
+      )}
+      {backendStatus && (
+        <div className="backend-pill" aria-live="polite">
+          Backend {backendStatus}
+        </div>
       )}
     </div>
   )

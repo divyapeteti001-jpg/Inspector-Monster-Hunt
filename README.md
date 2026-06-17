@@ -1,6 +1,6 @@
 # Inspection Monster Hunt
 
-Inspection Monster Hunt is my React mini game for the Nest Navigate Full Stack Engineering Assignment. The game teaches first-time homebuyers how to read a home inspection report with more confidence and decide which issues are worth bringing into a seller negotiation.
+Inspection Monster Hunt is a React mini game that teaches first-time homebuyers how to read a home inspection report with more confidence and decide which issues are worth bringing into a seller negotiation.
 
 Live app: https://inspector-monster-hunt.vercel.app/
 
@@ -44,9 +44,18 @@ npm run lint
 
 ## Tech Choices
 
-I used React with Vite because it is fast to set up and works well for a small interactive prototype. The game state lives in React state, which keeps the project simple and matches the assignment requirement that no backend is needed.
+I used React with Vite because it is fast to set up and works well for a small interactive prototype. The game state lives in React state, while a small Vercel-compatible backend receives completed game attempts and exposes a health endpoint.
 
-The game uses plain CSS for styling and responsive layout. I chose this so the visual design, animations, house board, meters, cards, and mobile adjustments could stay in one place without adding another styling library. The app is fully self-contained and does not call any external APIs.
+The game uses plain CSS for styling and responsive layout. I chose this so the visual design, animations, house board, meters, cards, and mobile adjustments could stay in one place without adding another styling library. The app uses its own backend API routes under `api/`.
+
+## Backend API
+
+The project includes lightweight serverless backend routes designed for Vercel:
+
+- `GET /api/health` confirms the backend is available.
+- `POST /api/attempts` receives a completed game attempt and returns a simple recommendation.
+
+This keeps the prototype easy to deploy while showing how the game can send results to a backend service.
 
 Most of the game data is stored as structured JavaScript objects in `src/App.jsx`. That made it easier to build multiple houses, different inspection findings, hidden issues, tool cooldowns, scoring rules, and negotiation outcomes without needing a database.
 
@@ -62,4 +71,4 @@ The prototype is designed for laptop and standard browser sizes first. It is res
 
 The inspection findings and repair values are simplified for gameplay. They are meant to teach prioritization, not replace advice from a real inspector, contractor, or real estate professional.
 
-The app does not save progress after a browser refresh. All progress is kept in the current browser session, which matches the no-backend scope of the assignment.
+The app does not persist progress after a browser refresh. The current backend accepts attempt submissions, but a production version would connect the API to a database before offering permanent saved progress.
