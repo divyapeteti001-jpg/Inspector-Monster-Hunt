@@ -51,25 +51,33 @@ button {
   width: fit-content;
   max-width: 100%;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   margin: 0 auto 22px;
   color: #14213d;
   font-weight: 900;
 }
 
-.brand-mark span {
+.brand-mark img {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 14px 18px rgba(20, 33, 61, 0.16));
+}
+
+.brand-mark div {
   display: grid;
-  width: 48px;
-  height: 48px;
-  place-items: center;
-  border-radius: 8px;
-  background: #1f6f67;
-  color: #fff;
-  box-shadow: 0 14px 24px rgba(31, 111, 103, 0.2);
+  gap: 2px;
 }
 
 .brand-mark strong {
   font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.brand-mark small {
+  color: #42526b;
+  font-size: 0.72rem;
+  font-weight: 800;
   text-transform: uppercase;
 }
 

@@ -629,8 +629,11 @@ function DetectiveMascot() {
 function BrandMark() {
   return (
     <div className="brand-mark" aria-label="Inspection Monster Hunt">
-      <span>IMH</span>
-      <strong>Inspection Monster Hunt</strong>
+      <img src="/logo.svg" alt="" aria-hidden="true" />
+      <div>
+        <strong>Inspection Monster Hunt</strong>
+        <small>Buyer inspection strategy game</small>
+      </div>
     </div>
   )
 }
@@ -644,8 +647,8 @@ function StartScreen({ onStart }) {
           <p className="eyebrow">First-time buyer mini game</p>
           <h1>Inspection Monster Hunt</h1>
           <p className="subtitle">
-            Defeat priority repair monsters, manage buyer confidence, use tools,
-            uncover hidden issues, and negotiate with the seller after the hunt.
+            A focused inspection strategy game where buyers identify serious
+            findings, protect deal health, and build a smarter seller request.
           </p>
           <button className="main-button" onClick={onStart}>
             Choose a House
